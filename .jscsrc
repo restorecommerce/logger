@@ -1,0 +1,10 @@
+{
+  "preset": "google",
+  "esnext": true,
+  "disallowTrailingComma": false,
+  "requireCommaBeforeLineBreak": false,
+  "requireSpaceBetweenArguments": false,
+  "requireCurlyBraces": false,
+  "disallowSpacesInsideArrayBrackets": false,
+  "disallowSpacesInsideObjectBrackets": false
+}
