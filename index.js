@@ -89,7 +89,9 @@ function Logger(conf) {
     // Compatibility for using this logger with modules which use
     // a `log()` function.
     log: function() {
-      log.log.apply(log, ['info', generateMessage(arguments), generateMetaObj(arguments)]);
+      let level = arguments[0].toLowerCase();
+      let args = Array.prototype.splice.apply(arguments, [1]);
+      log.log.apply(log, [level, generateMessage(args), generateMetaObj(args)]);
     }
   };
   return wrapper;
