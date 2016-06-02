@@ -16,7 +16,7 @@
   "dependencies": {
     "restore-winston-elasticsearch-transformer": "restorecommerce/winston-elasticsearch-transformer",
     "winston": "^2.2.0",
-    "winston-elasticsearch": "^0.3.0"
+    "winston-elasticsearch": "^0.4.0"
   },
   "devDependencies": {
     "jshint": "^2.9.1",
