@@ -1,9 +1,7 @@
-# 
+# logger
 
-xxx middleware
-[koa](https://restore-commerce.org/).
-Part of [Restore Commerce](https://restore-commerce.org/).
+Wrapper for the [winston](https://github.com/winstonjs/winston)
+logging toolkit with Restore specifics. These specifics are:
 
-## Usage
-
-
+- [Elasticsearch transport](https://github.com/vanthome/winston-elasticsearch)
+- An opinionated [transformer](https://github.com/restorecommerce/winston-elasticsearch-transformer)

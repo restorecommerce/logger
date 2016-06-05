@@ -1,12 +1,21 @@
 'use strict';
 
-let util = require('util');
-let winston = require('winston');
-let Elasticsearch = require('winston-elasticsearch');
+const util = require('util');
+const winston = require('winston');
+const Elasticsearch = require('winston-elasticsearch');
 
-let elasticsearchTransport = require('restore-winston-elasticsearch-transformer');
-let mappingTemplate = elasticsearchTransport.mappingTemplate;
-let transformer = elasticsearchTransport.transformer;
+const elasticsearchTransport = require('restore-winston-elasticsearch-transformer');
+const mappingTemplate = elasticsearchTransport.mappingTemplate;
+const transformer = elasticsearchTransport.transformer;
+
+const levels = [
+  'silly',
+  'verbose',
+  'debug',
+  'info',
+  'warn',
+  'error'
+];
 
 /**
  * Restore logger
@@ -15,84 +24,85 @@ let transformer = elasticsearchTransport.transformer;
  * @param {Object} [conf] - configuration
  */
 function Logger(conf) {
-  let logger;
+  let loggerCfg;
   if (conf) {
-    logger = conf.get('logger');
+    loggerCfg = conf.get('logger');
   }
 
   // Set up logging
   winston.log.namespaces = true;
-  if (logger) {
-    let transports = [];
-    for (let transport in logger) {
+  if (loggerCfg) {
+    const transports = [];
+    Object.keys(loggerCfg).forEach(transport => {
       switch (transport) {
         case 'console': {
-          transports.push(new (winston.transports.Console)(logger.console));
+          transports.push(new (winston.transports.Console)(loggerCfg.console));
           break;
         }
         case 'file': {
-          transports.push(new (winston.transports.File)(logger.file));
+          transports.push(new (winston.transports.File)(loggerCfg.file));
           break;
         }
         case 'elasticsearch': {
-          let esTransportOpts = logger.elasticsearch;
+          const esTransportOpts = loggerCfg.elasticsearch;
           esTransportOpts.mappingTemplate = mappingTemplate;
-          transformer.source = logger.elasticsearch.source;
+          transformer.source = loggerCfg.elasticsearch.source;
           esTransportOpts.transformer = transformer;
           transports.push(new Elasticsearch(esTransportOpts));
           break;
         }
+        default:
+          throw new Error('Provide at least one supported transport');
       }
-    }
+    });
     winston.loggers.add('restore', {
-      transports: transports
+      transports
     });
   }
 
-  let log = winston.loggers.get('restore');
+  const rslogger = winston.loggers.get('restore');
 
-  // Wrapping the winston logger with Restore specifics
-  // winston's signature is:
+  /*
+  Wrapping the winston logger with Restore specifics
 
-  // ### function log (level, msg, [meta], callback)
-  // #### @level {string} Level at which to log the message.
-  // #### @msg {string} Message to log
-  // #### @meta {Object} **Optional** Additional metadata to attach
-  // #### @callback {function} Continuation to respond to when complete.
-  // Core logging method exposed to Winston. Metadata is optional.
+  Winston's signature is:
 
-  // Our signature
-  // @level
-  // @rstcMeta
-  // @msg
-  // @meta
+  ### function log (level, msg, [meta], callback)
+  #### @level {string} Level at which to log the message.
+  #### @msg {string} Message to log
+  #### @meta {Object} **Optional** Additional metadata to attach
+  #### @callback {function} Continuation to respond to when compconste.
+  Core logging method exposed to Winston. Metadata is optional.
 
-  let wrapper = {
-    silly: function() {
-      log.log.apply(log, ['silly', generateMessage(arguments), generateMetaObj(arguments)]);
-    },
-    verbose: function() {
-      log.log.apply(log, ['verbose', generateMessage(arguments), generateMetaObj(arguments)]);
-    },
-    debug: function() {
-      log.log.apply(log, ['debug', generateMessage(arguments), generateMetaObj(arguments)]);
-    },
-    info: function() {
-      log.log.apply(log, ['info', generateMessage(arguments), generateMetaObj(arguments)]);
-    },
-    warn: function() {
-      log.log.apply(log, ['warn', generateMessage(arguments), generateMetaObj(arguments)]);
-    },
-    error: function() {
-      log.log.apply(log, ['error', generateMessage(arguments), generateMetaObj(arguments)]);
-    },
-    // Compatibility for using this logger with modules which use
-    // a `log()` function.
-    log: function() {
-      let level = arguments[0].toLowerCase();
-      let args = Array.prototype.splice.apply(arguments, [1]);
-      log.log.apply(log, [level, generateMessage(args), generateMetaObj(args)]);
-    }
+  The signature of this logger is:
+
+  @level
+  @msg
+  @meta
+  */
+
+  const wrapper = {};
+
+  levels.forEach(level => {
+    wrapper[level] = function log(...args) {
+      rslogger.log.apply(rslogger, [
+        level,
+        generateMessage(args),
+        generateMetaObj(args)
+      ]);
+    };
+  });
+
+  // Compatibility for using this logger with modules which expect
+  // a `log()` function.
+  wrapper.log = function log(...args) {
+    const level = args[0].toLowerCase();
+    const callargs = Array.prototype.splice.apply(args, [1]);
+    rslogger.log.apply(rslogger, [
+      level,
+      generateMessage(callargs),
+      generateMetaObj(callargs)
+    ]);
   };
   return wrapper;
 }
@@ -100,29 +110,29 @@ function Logger(conf) {
 module.exports = Logger;
 
 function generateMessage(args) {
-  let message = args[0];
+  const message = args[0];
   if (util.isString(message)) {
     Array.prototype.shift.apply(args);
-    return message;
   }
+  return message;
 }
 
 /**
- * Convert arguments object to real array
+ * Convert arguments array to an object
  * @param {Array} args
  * @returns {Object} formatted log object
  */
 function generateMetaObj(args) {
-  let logObj = {};
-  for(let k in args) {
+  const logObj = {};
+  Object.keys(args).forEach(k => {
     let v = args[k];
-    // Winston only inspects metadata in the log function,
-    // array of string messages in the second argument of log function
+    // Winston only inspects metadata in the log function;
+    // array of string messages in the second argument of the log function
     // won't be inspected automatically. Inspect error objects here manually.
     if (v instanceof Error) {
       v = util.inspect(v);
     }
     logObj[k] = v;
-  }
+  });
   return logObj;
 }
