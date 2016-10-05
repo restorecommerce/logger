@@ -20,13 +20,12 @@
     "winston-elasticsearch": "^0.4.0"
   },
   "devDependencies": {
-    "coveralls": "2.11.9",
+    "coveralls": "2.11.14",
     "eslint-config-restorecommerce": "restorecommerce/eslint-config-restorecommerce",
     "is-generator": "^1.0.3",
-    "istanbul": "^0.4.3",
-    "jshint": "^2.9.2",
-    "mocha": "^2.5.3",
-    "should": "^9.0.0"
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.0",
+    "should": "^11.1.0"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",

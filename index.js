@@ -3,8 +3,8 @@
 const util = require('util');
 const winston = require('winston');
 const Elasticsearch = require('winston-elasticsearch');
-
 const elasticsearchTransport = require('restore-winston-elasticsearch-transformer');
+
 const mappingTemplate = elasticsearchTransport.mappingTemplate;
 const transformer = elasticsearchTransport.transformer;
 
@@ -33,7 +33,7 @@ function Logger(conf) {
   winston.log.namespaces = true;
   if (loggerCfg) {
     const transports = [];
-    Object.keys(loggerCfg).forEach(transport => {
+    Object.keys(loggerCfg).forEach((transport) => {
       switch (transport) {
         case 'console': {
           transports.push(new (winston.transports.Console)(loggerCfg.console));
@@ -83,7 +83,7 @@ function Logger(conf) {
 
   const wrapper = {};
 
-  levels.forEach(level => {
+  levels.forEach((level) => {
     wrapper[level] = function log(...args) {
       rslogger.log.apply(rslogger, [
         level,
@@ -124,7 +124,7 @@ function generateMessage(args) {
  */
 function generateMetaObj(args) {
   const logObj = {};
-  Object.keys(args).forEach(k => {
+  Object.keys(args).forEach((k) => {
     let v = args[k];
     // Winston only inspects metadata in the log function;
     // array of string messages in the second argument of the log function
