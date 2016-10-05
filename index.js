@@ -17,50 +17,47 @@ const levels = [
   'error'
 ];
 
+const loggerName = 'restore';
+
 /**
- * Restore logger
- * @class
- * @classdesc Logger wraps the winston logger with Restore specifics
- * @param {Object} [conf] - configuration
+ Restore logger
+ @class
+ @classdesc Logger wraps the winston logger with Restore specifics
+ @param {Object} [opts] - configuration object with transport specific options
  */
-function Logger(conf) {
-  let loggerCfg;
-  if (conf) {
-    loggerCfg = conf.get('logger');
-  }
+function Logger(opts) {
+  if (!opts) throw new Error('Options are missing');
 
   // Set up logging
   winston.log.namespaces = true;
-  if (loggerCfg) {
-    const transports = [];
-    Object.keys(loggerCfg).forEach((transport) => {
-      switch (transport) {
-        case 'console': {
-          transports.push(new (winston.transports.Console)(loggerCfg.console));
-          break;
-        }
-        case 'file': {
-          transports.push(new (winston.transports.File)(loggerCfg.file));
-          break;
-        }
-        case 'elasticsearch': {
-          const esTransportOpts = loggerCfg.elasticsearch;
-          esTransportOpts.mappingTemplate = mappingTemplate;
-          transformer.source = loggerCfg.elasticsearch.source;
-          esTransportOpts.transformer = transformer;
-          transports.push(new Elasticsearch(esTransportOpts));
-          break;
-        }
-        default:
-          throw new Error('Provide at least one supported transport');
+  const transports = [];
+  Object.keys(opts).forEach((transport) => {
+    switch (transport) {
+      case 'console': {
+        transports.push(new (winston.transports.Console)(opts[transport]));
+        break;
       }
-    });
-    winston.loggers.add('restore', {
-      transports
-    });
-  }
+      case 'file': {
+        transports.push(new (winston.transports.File)(opts[transport]));
+        break;
+      }
+      case 'elasticsearch': {
+        const esTransportOpts = opts.elasticsearch;
+        esTransportOpts.mappingTemplate = mappingTemplate;
+        transformer.source = opts.elasticsearch.source;
+        esTransportOpts.transformer = transformer;
+        transports.push(new Elasticsearch(esTransportOpts));
+        break;
+      }
+      default:
+        throw new Error('Provide at least one supported transport');
+    }
+  });
+  winston.loggers.add(loggerName, {
+    transports
+  });
 
-  const rslogger = winston.loggers.get('restore');
+  const rslogger = winston.loggers.get(loggerName);
 
   /*
   Wrapping the winston logger with Restore specifics
@@ -118,9 +115,9 @@ function generateMessage(args) {
 }
 
 /**
- * Convert arguments array to an object
- * @param {Array} args
- * @returns {Object} formatted log object
+ Convert arguments array to an object
+ @param {Array} args
+ @returns {Object} formatted log object
  */
 function generateMetaObj(args) {
   const logObj = {};

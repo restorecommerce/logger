@@ -1,7 +1,23 @@
 # logger
 
-Wrapper for the [winston](https://github.com/winstonjs/winston)
-logging toolkit with Restore specifics. These specifics are:
+Opinionated wrapper for the [winston](https://github.com/winstonjs/winston)
+logging toolkit.
 
-- [Elasticsearch transport](https://github.com/vanthome/winston-elasticsearch)
-- An opinionated [transformer](https://github.com/restorecommerce/winston-elasticsearch-transformer)
+Supported transports:
+
+- [Elasticsearch transport](https://github.com/vanthome/winston-elasticsearch) using a [speciic transformer](https://github.com/restorecommerce/winston-elasticsearch-transformer)
+- Console (Winston builtin)
+- File (Winston builtin)
+
+The following log levels are supported:
+
+- silly
+- verbose
+- debug
+- info
+- warn
+- error
+
+## Usage
+
+see [test.js](test/test.js).

@@ -3,30 +3,19 @@ const should = require('should');
 
 const Logger = require('../index');
 
-const config = {
-  "logger": {
-    "console": {
-      "handleExceptions": false,
-      "level": "silly",
-      "colorize": true,
-      "prettyPrint": true
-    }
+const opts = {
+  "console": {
+    "handleExceptions": false,
+    "level": "silly",
+    "colorize": true,
+    "prettyPrint": true
   }
 }
-
-const cfg = {
-  value: config.logger,
-  get: function() {
-    return this.value;
-  },
-}
-
-let logger = null;
 
 describe('a logger', function() {
   it('can be instantiated', function(done) {
     try {
-      logger = new Logger(cfg);
+      logger = new Logger(opts);
       done();
     } catch (err) {
       should.not.exist(err);
