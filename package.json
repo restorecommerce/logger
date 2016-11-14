@@ -16,16 +16,16 @@
   ],
   "dependencies": {
     "restore-winston-elasticsearch-transformer": "restorecommerce/winston-elasticsearch-transformer",
-    "winston": "^2.2.0",
-    "winston-elasticsearch": "^0.4.0"
+    "winston": "^2.3.0",
+    "winston-elasticsearch": "^0.4.2"
   },
   "devDependencies": {
-    "coveralls": "2.11.14",
+    "coveralls": "^2.11.15",
     "eslint-config-restorecommerce": "restorecommerce/eslint-config-restorecommerce",
     "is-generator": "^1.0.3",
     "istanbul": "^0.4.5",
-    "mocha": "^3.1.0",
-    "should": "^11.1.0"
+    "mocha": "^3.1.2",
+    "should": "^11.1.1"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
