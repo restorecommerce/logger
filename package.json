@@ -15,13 +15,13 @@
     "logger"
   ],
   "dependencies": {
-    "restore-winston-elasticsearch-transformer": "restorecommerce/winston-elasticsearch-transformer",
+    "@restorecommerce/winston-elasticsearch-transformer": "github:restorecommerce/winston-elasticsearch-transformer",
     "winston": "^2.3.1",
     "winston-elasticsearch": "^0.5.0"
   },
   "devDependencies": {
+    "@restorecommerce/eslint-config-restorecommerce": "github:restorecommerce/eslint-config-restorecommerce",
     "coveralls": "^2.13.1",
-    "eslint-config-restorecommerce": "restorecommerce/eslint-config-restorecommerce",
     "is-generator": "^1.0.3",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",

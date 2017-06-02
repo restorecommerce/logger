@@ -3,7 +3,7 @@
 const util = require('util');
 const winston = require('winston');
 const Elasticsearch = require('winston-elasticsearch');
-const elasticsearchTransport = require('restore-winston-elasticsearch-transformer');
+const elasticsearchTransport = require('@restorecommerce/winston-elasticsearch-transformer');
 
 const mappingTemplate = elasticsearchTransport.mappingTemplate;
 const transformer = elasticsearchTransport.transformer;
