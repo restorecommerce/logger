@@ -24,8 +24,8 @@
     "coveralls": "^2.13.1",
     "is-generator": "^1.0.3",
     "istanbul": "^0.4.5",
-    "mocha": "^3.4.2",
-    "should": "^11.2.1"
+    "mocha": "^3.5.3",
+    "should": "^13.1.0"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
