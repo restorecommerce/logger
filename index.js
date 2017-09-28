@@ -17,7 +17,7 @@ const levels = [
   'error'
 ];
 
-const loggerName = 'restore';
+let loggerName;
 
 /**
  Restore logger
@@ -25,8 +25,10 @@ const loggerName = 'restore';
  @classdesc Logger wraps the winston logger with Restore specifics
  @param {Object} [opts] - configuration object with transport specific options
  */
-function Logger(opts) {
+function Logger(opts, targetLoggerName = 'restore') {
   if (!opts) throw new Error('Options are missing');
+
+  loggerName = targetLoggerName;
 
   // Set up logging
   winston.log.namespaces = true;
