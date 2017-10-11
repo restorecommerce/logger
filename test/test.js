@@ -1,9 +1,9 @@
 const should = require('should');
-//const winston = require('winston');
 
 const Logger = require('../index');
 
 const opts = {
+  "loggerName": "test",
   "console": {
     "handleExceptions": false,
     "level": "silly",

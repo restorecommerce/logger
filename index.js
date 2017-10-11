@@ -10,8 +10,8 @@ const transformer = elasticsearchTransport.transformer;
 
 const levels = [
   'silly',
-  'verbose',
   'debug',
+  'verbose',
   'info',
   'warn',
   'error'
@@ -25,25 +25,29 @@ let loggerName;
  @classdesc Logger wraps the winston logger with Restore specifics
  @param {Object} [opts] - configuration object with transport specific options
  */
-function Logger(opts, targetLoggerName = 'restore') {
+function Logger(opts) {
   if (!opts) throw new Error('Options are missing');
 
-  loggerName = targetLoggerName;
+  loggerName = opts.loggerName || 'restore';
 
   // Set up logging
   winston.log.namespaces = true;
+  let transportsCount = 0;
   const transports = [];
   Object.keys(opts).forEach((transport) => {
     switch (transport) {
       case 'console': {
+        transportsCount += 1;
         transports.push(new (winston.transports.Console)(opts[transport]));
         break;
       }
       case 'file': {
+        transportsCount += 1;
         transports.push(new (winston.transports.File)(opts[transport]));
         break;
       }
       case 'elasticsearch': {
+        transportsCount += 1;
         const esTransportOpts = opts.elasticsearch;
         esTransportOpts.mappingTemplate = mappingTemplate;
         transformer.source = opts.elasticsearch.source;
@@ -52,9 +56,14 @@ function Logger(opts, targetLoggerName = 'restore') {
         break;
       }
       default:
-        throw new Error('Provide at least one supported transport');
+        // ignore
     }
   });
+
+  if (transportsCount <= 0) {
+    throw new Error('Provide at least one supported transport');
+  }
+
   winston.loggers.add(loggerName, {
     transports
   });

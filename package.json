@@ -1,7 +1,7 @@
 {
   "name": "@restorecommerce/logger",
   "version": "0.1.0",
-  "description": "Wrapper for the winston logging tolkit with Restore specifics",
+  "description": "Opinionated wrapper and configurator for the winston logging tolkit",
   "main": "index",
   "author": "Invend GmbH",
   "repository": {
@@ -15,17 +15,17 @@
     "logger"
   ],
   "dependencies": {
-    "@restorecommerce/winston-elasticsearch-transformer": "github:restorecommerce/winston-elasticsearch-transformer",
+    "@restorecommerce/winston-elasticsearch-transformer": "^0.1.0",
     "winston": "^2.4.0",
     "winston-elasticsearch": "^0.5.3"
   },
   "devDependencies": {
-    "@restorecommerce/eslint-config-restorecommerce": "github:restorecommerce/eslint-config-restorecommerce",
+    "@restorecommerce/eslint-config-restorecommerce": "^0.1.0",
     "coveralls": "^3.0.0",
     "is-generator": "^1.0.3",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.1",
-    "should": "^13.1.1"
+    "should": "^13.1.2"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
