@@ -17,7 +17,7 @@
   "dependencies": {
     "@restorecommerce/winston-elasticsearch-transformer": "^0.1.0",
     "winston": "^2.4.0",
-    "winston-elasticsearch": "^0.5.3"
+    "winston-elasticsearch": "^0.5.5"
   },
   "devDependencies": {
     "@restorecommerce/eslint-config-restorecommerce": "^0.1.1",
