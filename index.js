@@ -95,8 +95,8 @@ function Logger(opts) {
     wrapper[level] = function log(...args) {
       // If there are multiple arguments then the object does not get logged
       // so stringifying it.
-      const varArgs = args.length > 2 ? JSON.stringify(args) :
-        (args[1] ? args[1] : args);
+      let varArgs = args.length > 2 ? JSON.stringify(args) : args;
+      varArgs = varArgs[1] ? varArgs[1] : varArgs;
       rslogger.log.apply(rslogger, [
         level,
         generateMessage(args),
