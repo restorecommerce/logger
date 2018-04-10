@@ -56,7 +56,7 @@ function Logger(opts) {
         break;
       }
       default:
-        // ignore
+      // ignore
     }
   });
 
@@ -93,10 +93,13 @@ function Logger(opts) {
 
   levels.forEach((level) => {
     wrapper[level] = function log(...args) {
+      // If there are multiple arguments then the object does not get logged
+      // so stringifying it.
+      const varArgs = args.length > 2 ? JSON.stringify(args) : args[1];
       rslogger.log.apply(rslogger, [
         level,
         generateMessage(args),
-        generateMetaObj(args)
+        varArgs
       ]);
     };
   });
@@ -109,7 +112,7 @@ function Logger(opts) {
     rslogger.log.apply(rslogger, [
       level,
       generateMessage(callargs),
-      generateMetaObj(callargs)
+      callargs
     ]);
   };
   return wrapper;
@@ -123,24 +126,4 @@ function generateMessage(args) {
     Array.prototype.shift.apply(args);
   }
   return message;
-}
-
-/**
- Convert arguments array to an object
- @param {Array} args
- @returns {Object} formatted log object
- */
-function generateMetaObj(args) {
-  const logObj = {};
-  Object.keys(args).forEach((k) => {
-    let v = args[k];
-    // Winston only inspects metadata in the log function;
-    // array of string messages in the second argument of the log function
-    // won't be inspected automatically. Inspect error objects here manually.
-    if (v instanceof Error) {
-      v = util.inspect(v);
-    }
-    logObj[k] = v;
-  });
-  return logObj;
 }
