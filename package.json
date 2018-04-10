@@ -15,7 +15,7 @@
     "logger"
   ],
   "dependencies": {
-    "@restorecommerce/winston-elasticsearch-transformer": "^0.1.0",
+    "@restorecommerce/winston-elasticsearch-transformer": "github:restorecommerce/winston-elasticsearch-transformer",
     "winston": "^2.4.1",
     "winston-elasticsearch": "^0.5.8"
   },
