@@ -94,9 +94,13 @@ function Logger(opts) {
   levels.forEach((level) => {
     wrapper[level] = function log(...args) {
       // If there are multiple arguments then the object does not get logged
-      // so stringifying it.
-      let varArgs = args.length > 2 ? JSON.stringify(args) : args;
-      varArgs = varArgs[1] ? varArgs[1] : varArgs;
+      // on ElasticSearch, so we stringify it.
+      let varArgs = args.slice(1);
+      if (args.length > 2) {
+        varArgs = JSON.stringify(varArgs);
+      } else if (args.length === 2) {
+        varArgs = varArgs[0];
+      }
       rslogger.log.apply(rslogger, [
         level,
         generateMessage(args),
