@@ -93,10 +93,15 @@ function Logger(opts) {
 
   levels.forEach((level) => {
     wrapper[level] = function log(...args) {
+      let varArgs;
+      varArgs = args.length === 2 ? args[1] : args;
+      if (util.isObject(args[0])) {
+        varArgs = args;
+      }
       rslogger.log.apply(rslogger, [
         level,
         generateMessage(args),
-        args
+        varArgs
       ]);
     };
   });
