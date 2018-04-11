@@ -93,18 +93,10 @@ function Logger(opts) {
 
   levels.forEach((level) => {
     wrapper[level] = function log(...args) {
-      // If there are multiple arguments then the object does not get logged
-      // on ElasticSearch, so we stringify it.
-      let varArgs = args.slice(1);
-      if (args.length > 2) {
-        varArgs = JSON.stringify(varArgs);
-      } else if (args.length === 2) {
-        varArgs = varArgs[0];
-      }
       rslogger.log.apply(rslogger, [
         level,
         generateMessage(args),
-        varArgs
+        args
       ]);
     };
   });
@@ -126,8 +118,9 @@ function Logger(opts) {
 module.exports = Logger;
 
 function generateMessage(args) {
-  const message = args[0];
-  if (util.isString(message)) {
+  let message;
+  if (util.isString(args[0])) {
+    message = args[0];
     Array.prototype.shift.apply(args);
   }
   return message;

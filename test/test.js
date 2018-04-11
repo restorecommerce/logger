@@ -31,8 +31,12 @@ describe('a logger', function () {
       done();
     });
     it('a message and multiple objects', function (done) {
-      this.timeout(6000);
       logger.info('Message with multiple object', { test: 'test' }, { test2: 'test2' });
+      done();
+    });
+    it('multiple objects', function (done) {
+      this.timeout(6000);
+      logger.info({ test: 'test' }, { test2: 'test2' });
       setTimeout(function () {
         done();
       }, 4000);
