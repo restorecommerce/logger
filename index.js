@@ -3,7 +3,8 @@
 const util = require('util');
 const winston = require('winston');
 const Elasticsearch = require('winston-elasticsearch');
-const elasticsearchTransport = require('@restorecommerce/winston-elasticsearch-transformer');
+const elasticsearchTransport =
+  require('@restorecommerce/winston-elasticsearch-transformer');
 
 const mappingTemplate = elasticsearchTransport.mappingTemplate;
 const transformer = elasticsearchTransport.transformer;
@@ -23,7 +24,8 @@ let loggerName;
  Restore logger
  @class
  @classdesc Logger wraps the winston logger with Restore specifics
- @param {Object} [opts] - configuration object with transport specific options
+ @param {Object} [opts] - configuration object with transport specific
+options
  */
 function Logger(opts) {
   if (!opts) throw new Error('Options are missing');
@@ -93,15 +95,12 @@ function Logger(opts) {
 
   levels.forEach((level) => {
     wrapper[level] = function log(...args) {
-      let varArgs;
-      varArgs = args.length === 2 ? args[1] : args;
-      if (util.isObject(args[0])) {
-        varArgs = args;
-      }
+      // process arguments and message
+      const processedArgs = processArgs(args);
       rslogger.log.apply(rslogger, [
         level,
-        generateMessage(args),
-        varArgs
+        processedArgs.message,
+        processedArgs.varArgs
       ]);
     };
   });
@@ -109,12 +108,15 @@ function Logger(opts) {
   // Compatibility for using this logger with modules which expect
   // a `log()` function.
   wrapper.log = function log(...args) {
+    // get log level / severity
     const level = args[0].toLowerCase();
     const callargs = Array.prototype.splice.apply(args, [1]);
+    // process arguments and message
+    const processedArgs = processArgs(callargs);
     rslogger.log.apply(rslogger, [
       level,
-      generateMessage(callargs),
-      callargs
+      processedArgs.message,
+      processedArgs.varArgs
     ]);
   };
   return wrapper;
@@ -122,11 +124,33 @@ function Logger(opts) {
 
 module.exports = Logger;
 
-function generateMessage(args) {
+function processArgs(args) {
   let message;
-  if (util.isString(args[0])) {
-    message = args[0];
-    Array.prototype.shift.apply(args);
+  let varArgs;
+  const locArgs = JSON.parse(JSON.stringify(args));
+  if (util.isString(locArgs[0])) {
+    message = locArgs[0];
+    locArgs.splice(0, 1);
+    varArgs = locArgs;
+    if (locArgs.length === 1) {
+      varArgs = locArgs[0];
+    }
+  } else {
+    varArgs = locArgs;
   }
-  return message;
+
+  if (Array.isArray(varArgs)) {
+    let i = 0;
+    varArgs.forEach((eachArg) => {
+      // To handle case if string is specified in args list
+      // ex: log(obj, string, obj, string)
+      if (typeof eachArg !== 'object') {
+        const key = `msg${i}`;
+        varArgs[i] = { [key]: eachArg };
+      }
+      i += 1;
+    });
+  }
+
+  return { message, varArgs };
 }
