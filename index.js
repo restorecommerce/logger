@@ -147,8 +147,8 @@ function processArgs(args) {
       if (typeof eachArg !== 'object') {
         const key = `msg${i}`;
         varArgs[i] = { [key]: eachArg };
+        i += 1;
       }
-      i += 1;
     });
   }
 
