@@ -27,7 +27,7 @@ the options hash:
   }
 ```
 
-The wrapper has methods that correspond to the following levels:
+The logger has methods that correspond to the following levels:
 
 - silly
 - verbose
@@ -36,9 +36,29 @@ The wrapper has methods that correspond to the following levels:
 - warn
 - error
 
-In addition there is a `log()` function.
+In addition there is a generic `log()` function.
 
 ## Usage
 
-see [test.js](test/test.js) and the
+The assumption with this logger is that the log statements are built like this:
+
+```js
+logger.info('Textual message');
+
+// or
+
+logger.info({ key: 'value' });
+
+// or
+
+logger.info('Textual message', { key: 'value' });
+
+// or
+
+logger.info({ key: 'value' }, { key: 'value' });
+```
+
+No other variants are supported.
+
+See [test.js](test/test.js) and the
 [Winston documentation](https://github.com/winstonjs/winston).
