@@ -4,7 +4,7 @@ const Logger = require('../index');
 
 const opts = {
   "loggerName": "test",
-  "elasticsearch": {
+  "console": {
     "handleExceptions": false,
     "level": "silly",
     "colorize": true,
