@@ -27,7 +27,13 @@ class Logger {
       switch (transport) {
         case 'console': {
           transportsCount += 1;
-          transports.push(new (winston.transports.Console)(opts[transport]));
+          const consoleOpts = Object.assign({}, opts[transport], {
+            format: winston.format.combine(
+              winston.format.colorize(),
+              winston.format.simple()
+            )
+          });
+          transports.push(new (winston.transports.Console)(consoleOpts));
           break;
         }
         case 'file': {
