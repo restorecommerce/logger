@@ -10,7 +10,7 @@ const opts = {
     "colorize": true,
     "prettyPrint": true
   }
-}
+};
 
 describe('a logger', function () {
   it('can be instantiated', function (done) {

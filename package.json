@@ -1,6 +1,6 @@
 {
   "name": "@restorecommerce/logger",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Opinionated wrapper and configurator for the winston logging tolkit",
   "main": "index",
   "author": "Invend GmbH",
@@ -15,7 +15,7 @@
     "logger"
   ],
   "dependencies": {
-    "@restorecommerce/winston-elasticsearch-transformer": "^0.1.4",
+    "@restorecommerce/winston-elasticsearch-transformer": "^0.1.5",
     "winston": "^3.0.0",
     "winston-elasticsearch": "^0.7.2"
   },

@@ -1,3 +1,7 @@
+### 0.1.6 (July 5th, 2018)
+
+- Upgrade deps.
+
 ### 0.1.5 (June 20th, 2018)
 
 - Upgrade deps.
