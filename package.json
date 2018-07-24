@@ -17,7 +17,7 @@
   "dependencies": {
     "@restorecommerce/winston-elasticsearch-transformer": "^0.1.5",
     "winston": "^3.0.0",
-    "winston-elasticsearch": "^0.7.2"
+    "winston-elasticsearch": "^0.7.4"
   },
   "devDependencies": {
     "@restorecommerce/eslint-config-restorecommerce": "^0.1.1",
@@ -34,6 +34,6 @@
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/*"
   },
   "engines": {
-    "node": ">= 8.0.0"
+    "node": ">= 9.2.0"
   }
 }
