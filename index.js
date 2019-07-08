@@ -4,9 +4,31 @@ const winston = require('winston');
 const Elasticsearch = require('winston-elasticsearch');
 const elasticsearchTransport =
   require('@restorecommerce/winston-elasticsearch-transformer');
+const { format } = require('winston');
+const rTracer = require('cls-rtracer');
 
 const mappingTemplate = elasticsearchTransport.mappingTemplate;
 const transformer = elasticsearchTransport.transformer;
+const { timestamp, printf } = format;
+
+// a custom format that outputs request id
+/* eslint-disable no-param-reassign */
+const rTracerFormat = printf((info) => {
+  const rid = rTracer.id();
+  const time = info.timestamp;
+  const level = info.level;
+  const message = info.message;
+  delete info.timestamp;
+  delete info.level;
+  delete info.message;
+  let object = '';
+  if (Object.entries(info).length !== 0 && info.constructor === Object) {
+    object = JSON.stringify(info);
+  }
+  return rid
+    ? `${level} : ${time} [request-id:${rid}] : ${message} ${((object))}`
+    : `${level} : ${time} : ${message} ${(object)}`;
+});
 
 /**
  Logger
@@ -30,7 +52,9 @@ class Logger {
           const consoleOpts = Object.assign({}, opts[transport], {
             format: winston.format.combine(
               winston.format.colorize(),
-              winston.format.simple()
+              winston.format.simple(),
+              timestamp(),
+              rTracerFormat
             )
           });
           transports.push(new (winston.transports.Console)(consoleOpts));

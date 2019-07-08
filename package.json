@@ -16,22 +16,23 @@
   ],
   "dependencies": {
     "@restorecommerce/winston-elasticsearch-transformer": "^0.1.5",
-    "winston": "^3.0.0",
-    "winston-elasticsearch": "^0.7.4"
+    "cls-rtracer": "^1.2.0",
+    "cls-hooked": "^4.2.2",
+    "winston": "^3.2.1",
+    "winston-elasticsearch": "^0.7.12"
   },
   "devDependencies": {
     "@restorecommerce/eslint-config-restorecommerce": "^0.1.1",
-    "coveralls": "^3.0.2",
-    "is-generator": "^1.0.3",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
-    "should": "^13.2.1"
+    "coveralls": "^3.0.4",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "should": "^13.2.3"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
     "lint": "eslint *.json *.js",
     "mocha": "mocha ./test/*.js --exit",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/*"
+    "coveralls": "nyc --reporter text --reporter lcov npm test"
   },
   "engines": {
     "node": ">= 9.2.0"

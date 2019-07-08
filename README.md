@@ -1,5 +1,12 @@
 # logger
 
+<img src="http://img.shields.io/npm/v/%40restorecommerce%2Flogger.svg?style=flat-square" alt="">[![Build Status][build]](https://travis-ci.org/restorecommerce/logger?branch=master)[![Dependencies][depend]](https://david-dm.org/restorecommerce/logger)[![Coverage Status][cover]](https://coveralls.io/github/restorecommerce/logger?branch=master)
+
+[version]: http://img.shields.io/npm/v/logger.svg?style=flat-square
+[build]: http://img.shields.io/travis/restorecommerce/logger/master.svg?style=flat-square
+[depend]: https://img.shields.io/david/restorecommerce/logger.svg?style=flat-square
+[cover]: http://img.shields.io/coveralls/restorecommerce/logger/master.svg?style=flat-square
+
 Opinionated wrapper and configurator for the
 [winston](https://github.com/winstonjs/winston) logging toolkit.
 
