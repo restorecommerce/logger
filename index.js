@@ -26,7 +26,7 @@ const rTracerFormat = printf((info) => {
     object = JSON.stringify(info);
   }
   return rid
-    ? `${level} : ${time} [request-id:${rid}] : ${message} ${((object))}`
+    ? `${level} : ${time} [rid:${rid}] : ${message} ${((object))}`
     : `${level} : ${time} : ${message} ${(object)}`;
 });
 
