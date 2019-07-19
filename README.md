@@ -45,7 +45,7 @@ The logger has methods that correspond to the following levels:
 
 In addition there is a generic `log()` function.
 
-NOTE: For `Console` logger we have a custom format that outputs the rid (request-id) if it is set using [cls-rtracer](https://github.com/puzpuzpuz/cls-rtracer) module.
+NOTE: For `Console` logger a custom format is defined that outputs the rid (request-id) if it is set using [cls-rtracer](https://github.com/puzpuzpuz/cls-rtracer) module.
 
 ## Usage
 
