@@ -1,3 +1,7 @@
+### 0.1.8 (July 19th, 2019)
+
+- updated winston-elasticsearch-transformer which includes rid (request-id) based on cls-rtracer.
+
 ### 0.1.7 (July 19th, 2019)
 
 - TypeScripted, added custom logger for Console logging.
