@@ -65,5 +65,5 @@ logger.info('Textual message', { key: 'value' });
 
 No other variants are supported.
 
-See [test.js](test/test.js) and the
+See [test.js](test/test.ts) and the
 [Winston documentation](https://github.com/winstonjs/winston).
