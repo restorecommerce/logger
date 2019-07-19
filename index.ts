@@ -1,18 +1,17 @@
-'use strict';
+import {
+  Logger as WinstonLogger, createLogger,
+  format, log, transports as Transports
+}
+  from 'winston';
+import Elasticsearch from 'winston-elasticsearch';
+import * as winstonESTransformer from '@restorecommerce/winston-elasticsearch-transformer';
+import * as rTracer from 'cls-rtracer';
 
-const winston = require('winston');
-const Elasticsearch = require('winston-elasticsearch');
-const elasticsearchTransport =
-  require('@restorecommerce/winston-elasticsearch-transformer');
-const { format } = require('winston');
-const rTracer = require('cls-rtracer');
-
-const mappingTemplate = elasticsearchTransport.mappingTemplate;
-const transformer = elasticsearchTransport.transformer;
+const mappingTemplate = winstonESTransformer.mappingTemplate;
+const transformer = winstonESTransformer.transformer;
 const { timestamp, printf } = format;
 
 // a custom format that outputs request id
-/* eslint-disable no-param-reassign */
 const rTracerFormat = printf((info) => {
   const rid = rTracer.id();
   const time = info.timestamp;
@@ -31,38 +30,38 @@ const rTracerFormat = printf((info) => {
 });
 
 /**
- Logger
+ RestoreLogger
  @class
- @classdesc Logger wraps the winston logger with Restore specifics
+ @classdesc RestoreLogger wraps the winston logger with Restore specifics
  @param {Object} [opts] - configuration object with transport specific
 options
  */
-class Logger {
-  constructor(opts) {
+class RestoreLogger {
+  constructor(opts: any) {
     if (!opts) throw new Error('Options are missing');
 
     // Set up logging
-    winston.log.namespaces = true;
+    (log as any).namespaces = true;
     let transportsCount = 0;
-    const transports = [];
+    const transports: any = [];
     Object.keys(opts).forEach((transport) => {
       switch (transport) {
         case 'console': {
           transportsCount += 1;
           const consoleOpts = Object.assign({}, opts[transport], {
-            format: winston.format.combine(
-              winston.format.colorize(),
-              winston.format.simple(),
+            format: format.combine(
+              format.colorize(),
+              format.simple(),
               timestamp(),
               rTracerFormat
             )
           });
-          transports.push(new (winston.transports.Console)(consoleOpts));
+          transports.push(new (Transports.Console)(consoleOpts));
           break;
         }
         case 'file': {
           transportsCount += 1;
-          transports.push(new (winston.transports.File)(opts[transport]));
+          transports.push(new (Transports.File)(opts[transport]));
           break;
         }
         case 'elasticsearch': {
@@ -83,8 +82,8 @@ class Logger {
       throw new Error('Provide at least one supported transport');
     }
 
-    return winston.createLogger({ transports });
+    return createLogger({ transports });
   }
 }
 
-module.exports = Logger;
+export const Logger = RestoreLogger as WinstonLogger;
