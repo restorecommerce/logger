@@ -1,6 +1,6 @@
 {
   "name": "@restorecommerce/logger",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Opinionated wrapper and configurator for the winston logging tolkit",
   "main": "index",
   "author": "Invend GmbH",
@@ -23,14 +23,21 @@
   },
   "devDependencies": {
     "@restorecommerce/eslint-config-restorecommerce": "^0.1.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.8",
     "coveralls": "^3.0.4",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
-    "should": "^13.2.3"
+    "should": "^13.2.3",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
   },
   "scripts": {
+    "pretest": "npm run tsctests",
+    "tsctests": "tsc -d",
     "test": "npm run lint && npm run mocha",
-    "lint": "eslint *.json *.js",
+    "lint": "tslint './*.ts'",
+    "postinstall": "tsc -d",
     "mocha": "mocha ./test/*.js --exit",
     "coveralls": "nyc --reporter text --reporter lcov npm test"
   },

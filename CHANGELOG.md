@@ -1,3 +1,8 @@
+### 0.1.7 (July 19th, 2019)
+
+- TypeScripted, added custom logger for Console logging.
+- Upgrade deps.
+
 ### 0.1.6 (July 5th, 2018)
 
 - Upgrade deps.
