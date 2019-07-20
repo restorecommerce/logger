@@ -29,6 +29,9 @@ const rTracerFormat = printf((info) => {
     : `${level} : ${time} : ${message} ${(object)}`;
 });
 
+export interface Logger extends WinstonLogger {
+}
+
 /**
  RestoreLogger
  @class
