@@ -1,3 +1,7 @@
+### 0.1.9 (July 22nd, 2019)
+
+- restructured for importing typings.
+
 ### 0.1.8 (July 19th, 2019)
 
 - updated winston-elasticsearch-transformer which includes rid (request-id) based on cls-rtracer.
