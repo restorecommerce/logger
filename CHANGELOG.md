@@ -1,3 +1,7 @@
+### 0.1.10 (July 23rd, 2019)
+
+- prevent .git folder being published to npm
+
 ### 0.1.9 (July 22nd, 2019)
 
 - restructured for importing typings.

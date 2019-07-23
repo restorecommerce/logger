@@ -7,7 +7,6 @@ coverage/
 .settings
 .directory
 .vscode
-.git
 
 *.log
 *~
