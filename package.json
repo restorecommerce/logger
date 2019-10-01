@@ -1,6 +1,6 @@
 {
   "name": "@restorecommerce/logger",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Opinionated wrapper and configurator for the winston logging tolkit",
   "main": "index",
   "author": "Invend GmbH",
@@ -15,22 +15,22 @@
     "logger"
   ],
   "dependencies": {
-    "@restorecommerce/winston-elasticsearch-transformer": "^0.1.7",
-    "cls-rtracer": "^1.2.0",
+    "@restorecommerce/winston-elasticsearch-transformer": "^0.1.8",
     "cls-hooked": "^4.2.2",
+    "cls-rtracer": "^1.3.0",
     "winston": "^3.2.1",
-    "winston-elasticsearch": "^0.7.12"
+    "winston-elasticsearch": "^0.8.1"
   },
   "devDependencies": {
-    "@restorecommerce/eslint-config-restorecommerce": "^0.1.1",
+    "@restorecommerce/eslint-config-restorecommerce": "^0.1.5",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.8",
-    "coveralls": "^3.0.4",
-    "mocha": "^6.1.4",
+    "@types/node": "^12.7.8",
+    "coveralls": "^3.0.6",
+    "mocha": "^6.2.1",
     "nyc": "^14.1.1",
     "should": "^13.2.3",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
   },
   "scripts": {
     "pretest": "npm run tsctests",
@@ -42,6 +42,6 @@
     "coveralls": "nyc --reporter text --reporter lcov npm test"
   },
   "engines": {
-    "node": ">= 9.2.0"
+    "node": ">= 10.0.0"
   }
 }

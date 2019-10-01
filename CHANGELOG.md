@@ -1,3 +1,7 @@
+### 0.1.11 (October 1st, 2019)
+
+- Upgrade dependencies
+
 ### 0.1.10 (July 23rd, 2019)
 
 - prevent .git folder being published to npm
