@@ -1,3 +1,7 @@
+### 0.1.12 (October 10th, 2019)
+
+- Upgrade dependencies
+
 ### 0.1.11 (October 1st, 2019)
 
 - Upgrade dependencies
